@@ -17,7 +17,9 @@ battery_state_broadcaster:
         [
           [
             "voltage",
-            "temperature", # optional interfaces below
+            # Only 6 interfaces total can be configured. 
+            # Choose 5 from optional interfaces below in your controllers.yaml file:
+            "temperature",
             "current",
             "charge",
             "capacity",
