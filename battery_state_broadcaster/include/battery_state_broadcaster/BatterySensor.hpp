@@ -50,11 +50,11 @@ public:
       } else if (name == "percentage") {
         message.percentage = value;
       } else if (name == "power_supply_health") {
-        message.power_supply_health = static_cast<uint8_t>(value);
+        message.power_supply_health = static_cast<uint8_t>(round(value));
       } else if (name == "power_supply_status") {
-        message.power_supply_status = static_cast<uint8_t>(value);
+        message.power_supply_status = static_cast<uint8_t>(round(value));
       } else if (name == "present") {
-        message.capacity = static_cast<bool>(value);
+        message.present = static_cast<int>(round(value)) == 0 ? false : true;
       }
     }
   }
