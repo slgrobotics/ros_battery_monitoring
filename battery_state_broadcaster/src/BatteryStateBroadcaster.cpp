@@ -36,7 +36,7 @@ BatteryStateBroadcaster::on_configure(const rclcpp_lifecycle::State& /*previous_
   try {
     // register ft sensor data publisher
     battery_state_pub_ =
-        get_node()->create_publisher<sensor_msgs::msg::BatteryState>("~/battery_state", rclcpp::SensorDataQoS());
+        get_node()->create_publisher<sensor_msgs::msg::BatteryState>("~/battery_state", rclcpp::SystemDefaultsQoS());
     realtime_publisher_ = std::make_unique<StatePublisher>(battery_state_pub_);
   } catch (const std::exception & e) {
     RCLCPP_ERROR(
