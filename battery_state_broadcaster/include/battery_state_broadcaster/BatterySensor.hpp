@@ -12,9 +12,10 @@ public:
   explicit BatterySensor(const std::string& name, const std::vector<std::string> & interfaces)
     : semantic_components::SemanticComponentInterface<sensor_msgs::msg::BatteryState>(name, interfaces.size())
   {
-    //interface_names_.emplace_back(name_ + "/" + "voltage");
     for (const auto & interface : interfaces) {
       this->interface_names_.emplace_back(this->name_ + "/" + interface);
+
+      RCLCPP_INFO(get_node()->get_logger(), "Interface '" + this->name_ + "/" + interface + "' configured");
     }
   }
 
