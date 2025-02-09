@@ -13,12 +13,9 @@ public:
     : semantic_components::SemanticComponentInterface<sensor_msgs::msg::BatteryState>(name, interfaces.size())
   {
     for (const auto & interface : interfaces) {
-
-      std::string int_name = this->name_ + "/" + interface;
-
-      this->interface_names_.emplace_back();
-
-      RCLCPP_INFO(logger, "Interface '%s' configured", int_name.c_str());
+      std::string interface_name = this->name_ + "/" + interface;
+      this->interface_names_.emplace_back(interface_name);
+      RCLCPP_INFO(logger, "Interface '%s' configured", interface_name.c_str());
     }
   }
 
@@ -51,6 +48,8 @@ public:
         message.capacity = value;
       } else if (name == "percentage") {
         message.percentage = value;
+      } else if (name == "power_supply_health") {
+        message.power_supply_health = static_cast<uint8_t>(value);
       } else if (name == "power_supply_status") {
         message.power_supply_status = static_cast<uint8_t>(value);
       }
