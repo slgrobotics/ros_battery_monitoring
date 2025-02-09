@@ -1,11 +1,15 @@
+#
+# inspired by https://github.com/HarvestX/h6x_ros2_controllers/blob/humble/battery_state_broadcaster/src/battery_state_broadcaster_parameters.yaml
+#
+
 battery_state_broadcaster:
   sensor_name:
     type: string
     description: "Name of the sensor used as prefix for interfaces if there are no individual interface names defined."
     default_value: "battery_sensor"
-  state_interfaces:
+  state_interfaces: # Base driver can report dynamic parameters 
     type: string_array
-    default_value: ["voltage"]
+    default_value: ["voltage"] # voltage is mandatory
     validation:
       not_empty<>: []
       size_lt<>: 7
@@ -13,12 +17,14 @@ battery_state_broadcaster:
         [
           [
             "voltage",
-            "temperature",
+            "temperature", # optional interfaces below
             "current",
             "charge",
             "capacity",
             "percentage",
             "power_supply_status",
+            "power_supply_health",
+            "present"
           ],
         ]
   frame_id:
@@ -29,18 +35,6 @@ battery_state_broadcaster:
     type: double
     description: "Capacity in in Ah (design capacity) (If unmeasured NaN)"
     default_value: .NAN
-  power_supply_status:
-    type: int
-    description: "The charging status as reported."
-    default_value: 2
-    validation:
-      bounds<>: [0, 4]
-  power_supply_health:
-    type: int
-    description: "The battery health metric."
-    default_value: 1
-    validation:
-      bounds<>: [0, 8]
   power_supply_technology:
     type: int
     description: "The battery chemistry."
