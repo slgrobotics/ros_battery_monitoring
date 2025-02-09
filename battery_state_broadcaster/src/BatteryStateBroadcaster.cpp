@@ -31,7 +31,7 @@ BatteryStateBroadcaster::on_configure(const rclcpp_lifecycle::State& /*previous_
 
   params_ = param_listener_->get_params();
 
-  battery_sensor_ = std::make_unique<BatterySensor>(BatterySensor(sensor_name, params_.state_interfaces));
+  battery_sensor_ = std::make_unique<BatterySensor>(BatterySensor(sensor_name, params_.state_interfaces, get_node()->get_logger()));
 
   try {
     // register ft sensor data publisher

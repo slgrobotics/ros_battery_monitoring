@@ -9,13 +9,16 @@ namespace battery_state_broadcaster
 class BatterySensor : public semantic_components::SemanticComponentInterface<sensor_msgs::msg::BatteryState>
 {
 public:
-  explicit BatterySensor(const std::string& name, const std::vector<std::string> & interfaces)
+  explicit BatterySensor(const std::string& name, const std::vector<std::string> & interfaces, rclcpp::Logger logger)
     : semantic_components::SemanticComponentInterface<sensor_msgs::msg::BatteryState>(name, interfaces.size())
   {
     for (const auto & interface : interfaces) {
-      this->interface_names_.emplace_back(this->name_ + "/" + interface);
 
-      RCLCPP_INFO(get_node()->get_logger(), "Interface '" + this->name_ + "/" + interface + "' configured");
+      std::string int_name = this->name_ + "/" + interface;
+
+      this->interface_names_.emplace_back();
+
+      RCLCPP_INFO(logger, "Interface '%s' configured", int_name.c_str());
     }
   }
 
