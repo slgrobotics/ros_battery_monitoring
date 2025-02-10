@@ -3,22 +3,48 @@
 #
 
 battery_state_broadcaster:
+
+  # the following parameters can be defined in controllers.yaml:
   sensor_name:
     type: string
     description: "Name of the sensor used as prefix for interfaces if there are no individual interface names defined."
     default_value: "battery_sensor"
-  state_interfaces: # Base driver can report dynamic parameters 
+  frame_id:
+    type: string
+    description: "Sensor's frame_id in which values are published."
+    default_value: "base_link"
+  power_supply_technology:
+    type: int
+    description: "The battery chemistry."
+    default_value: 0
+    validation:
+      bounds<>: [0, 6]
+  design_capacity:
+    type: double
+    description: "Capacity in in Ah (design capacity) (If unmeasured NaN)"
+    default_value: .NAN
+  location:
+    type: string
+    description: "The location into which the battery is inserted. (slot number or plug)"
+    default_value: ""
+  serial_number:
+    type: string
+    description: "The best approximation of the battery serial number"
+    default_value: ""
+
+  # the Base driver can report dynamic parameters:
+  state_interfaces:
     type: string_array
     default_value: ["voltage"] # voltage is mandatory
     validation:
       not_empty<>: []
-      size_lt<>: 7
+      size_lt<>: 10
       subset_of<>:
         [
           [
+            # Mandatory:
             "voltage",
-            # Only 6 interfaces total can be configured. 
-            # Choose 5 from optional interfaces below in your controllers.yaml file:
+            # Optional:
             "temperature",
             "current",
             "charge",
@@ -29,25 +55,3 @@ battery_state_broadcaster:
             "present"
           ],
         ]
-  frame_id:
-    type: string
-    description: "Sensor's frame_id in which values are published."
-    default_value: "base_link"
-  design_capacity:
-    type: double
-    description: "Capacity in in Ah (design capacity) (If unmeasured NaN)"
-    default_value: .NAN
-  power_supply_technology:
-    type: int
-    description: "The battery chemistry."
-    default_value: 0
-    validation:
-      bounds<>: [0, 6]
-  location:
-    type: string
-    description: "The location into which the battery is inserted. (slot number or plug)"
-    default_value: ""
-  serial_number:
-    type: string
-    description: "The best approximation of the battery serial number"
-    default_value: ""
