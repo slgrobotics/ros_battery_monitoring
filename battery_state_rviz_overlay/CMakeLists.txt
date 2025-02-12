@@ -40,14 +40,12 @@ install(
   DIRECTORY include/
   DESTINATION include/battery_state_rviz_overlay
 )
+
 install(
   TARGETS
   battery_state_rviz_overlay_parameters
   EXPORT export_battery_state_rviz_overlay
-  RUNTIME DESTINATION bin
-  ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
-  INCLUDES DESTINATION include
 )
 
 ament_package()
