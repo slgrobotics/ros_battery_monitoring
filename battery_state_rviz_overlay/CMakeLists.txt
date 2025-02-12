@@ -36,9 +36,4 @@ install(
   DESTINATION lib/${PROJECT_NAME}
 )
 
-install(
-  DIRECTORY include/
-  DESTINATION include/battery_state_rviz_overlay
-)
-
 ament_package()
