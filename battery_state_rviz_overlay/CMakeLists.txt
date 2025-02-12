@@ -41,11 +41,4 @@ install(
   DESTINATION include/battery_state_rviz_overlay
 )
 
-install(
-  TARGETS
-  battery_state_rviz_overlay_parameters
-  EXPORT export_battery_state_rviz_overlay
-  LIBRARY DESTINATION lib
-)
-
 ament_package()
