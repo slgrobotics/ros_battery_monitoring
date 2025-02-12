@@ -30,7 +30,7 @@ battery_state_rviz_overlay:
   text_size:
     type: double
     description: "Font size"
-    default_value: 5.0
+    default_value: 20.0
   horizontal_alignment:
     type: int
     description: "Horizontal alignment, one of LEFT=0, CENTER=2, RIGHT=1"
