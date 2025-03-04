@@ -64,7 +64,7 @@ BatteryStateBroadcaster::on_configure(const rclcpp_lifecycle::State& /*previous_
   realtime_publisher_->msg_.power_supply_status = sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_UNKNOWN;
   realtime_publisher_->msg_.power_supply_health = sensor_msgs::msg::BatteryState::POWER_SUPPLY_HEALTH_UNKNOWN;
   realtime_publisher_->msg_.power_supply_technology = params_.power_supply_technology;
-  realtime_publisher_->msg_.present = false;
+  realtime_publisher_->msg_.present = true;
   realtime_publisher_->msg_.location = params_.location;
   realtime_publisher_->msg_.serial_number = params_.serial_number;
 
