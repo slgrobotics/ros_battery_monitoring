@@ -4,20 +4,22 @@
 #include <rclcpp/qos.hpp>
 
 //
-// Some code from https://github.com/HarvestX/h6x_ros2_controllers/blob/humble/battery_state_broadcaster/src/battery_state_broadcaster.cpp
+// Some code from
+// https://github.com/HarvestX/h6x_ros2_controllers/blob/humble/battery_state_broadcaster/src/battery_state_broadcaster.cpp
 //
 
 namespace battery_state_broadcaster
 {
 controller_interface::CallbackReturn BatteryStateBroadcaster::on_init()
 {
-  try {
+  try
+  {
     param_listener_ = std::make_shared<ParamListener>(get_node());
     params_ = param_listener_->get_params();
-  } catch (const std::exception & e) {
-    RCLCPP_ERROR(
-      get_node()->get_logger(), "Exception thrown during init stage with message: %s \n",
-      e.what());
+  }
+  catch (const std::exception& e)
+  {
+    RCLCPP_ERROR(get_node()->get_logger(), "Exception thrown during init stage with message: %s \n", e.what());
     return CallbackReturn::ERROR;
   }
 
@@ -31,18 +33,20 @@ BatteryStateBroadcaster::on_configure(const rclcpp_lifecycle::State& /*previous_
 
   params_ = param_listener_->get_params();
 
-  battery_sensor_ = std::make_unique<BatterySensor>(BatterySensor(sensor_name, params_.state_interfaces, get_node()->get_logger()));
+  battery_sensor_ = std::make_unique<BatterySensor>(BatterySensor(sensor_name, params_.state_interfaces));
 
-  try {
+  try
+  {
     // register ft sensor data publisher
     battery_state_pub_ =
         get_node()->create_publisher<sensor_msgs::msg::BatteryState>("~/battery_state", rclcpp::SystemDefaultsQoS());
     realtime_publisher_ = std::make_unique<StatePublisher>(battery_state_pub_);
-  } catch (const std::exception & e) {
-    RCLCPP_ERROR(
-      get_node()->get_logger(),
-      "Exception thrown during publisher creation at configure stage with message : %s \n",
-      e.what());
+  }
+  catch (const std::exception& e)
+  {
+    RCLCPP_ERROR(get_node()->get_logger(),
+                 "Exception thrown during publisher creation at configure stage with message : %s \n",
+                 e.what());
     return CallbackReturn::ERROR;
   }
 

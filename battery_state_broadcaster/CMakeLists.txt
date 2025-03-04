@@ -5,8 +5,6 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-# add_compile_options(-v)
-
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   controller_interface
   pluginlib
@@ -24,7 +22,7 @@ endforeach()
 
 # Parameters Library ================================================
 set(TARGET ${PROJECT_NAME}_parameters)
-generate_parameter_library(${TARGET} src/${TARGET}.yaml)
+generate_parameter_library(${TARGET} src/battery_state_broadcaster_parameters.yaml)
 
 add_library(battery_state_broadcaster SHARED src/BatteryStateBroadcaster.cpp)
 target_include_directories(battery_state_broadcaster PUBLIC

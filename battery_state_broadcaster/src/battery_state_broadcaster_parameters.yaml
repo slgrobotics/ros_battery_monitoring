@@ -3,8 +3,6 @@
 #
 
 battery_state_broadcaster:
-
-  # the following parameters can be defined in controllers.yaml:
   sensor_name:
     type: string
     description: "Name of the sensor used as prefix for interfaces if there are no individual interface names defined."
@@ -18,7 +16,6 @@ battery_state_broadcaster:
     description: "The battery chemistry."
     default_value: 0
     validation:
-      bounds<>: [0, 6]
   design_capacity:
     type: double
     description: "Capacity in in Ah (design capacity) (If unmeasured NaN)"
@@ -39,8 +36,7 @@ battery_state_broadcaster:
     validation:
       not_empty<>: []
       size_lt<>: 10
-      subset_of<>:
-        [
+      subset_of<>: [
           [
             # Mandatory:
             "voltage",
@@ -52,6 +48,6 @@ battery_state_broadcaster:
             "percentage",
             "power_supply_status",
             "power_supply_health",
-            "present"
+            "present",
           ],
         ]
