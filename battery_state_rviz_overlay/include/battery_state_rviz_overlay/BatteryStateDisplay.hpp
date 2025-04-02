@@ -16,8 +16,6 @@ class BatteryStateDisplay : public rclcpp::Node
 public:
   explicit BatteryStateDisplay(const std::string& name);
 
-  //inline void setParams(Params params) { params_ = params; }
-
   inline void setParamListener(std::shared_ptr<ParamListener> param_listener) { param_listener_ = param_listener; }
 
 private:

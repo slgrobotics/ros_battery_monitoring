@@ -27,7 +27,8 @@ public:
 
   double get_voltage()
   {
-    voltage_ = state_interfaces_[0].get().get_value();
+    const auto val = state_interfaces_[0].get().get_optional();
+    voltage_ = val.has_value() ? val.value() : NAN;
     return voltage_;
   }
 
@@ -36,25 +37,25 @@ public:
     // seed the message with dynamic values - only from existing interfaces:
     for (const auto & state_interface : state_interfaces_) {
       const auto & name = state_interface.get().get_interface_name();
-      const auto & value = state_interface.get().get_value();
+      const auto val = state_interface.get().get_optional();
       if (name == "voltage") {
-        message.voltage = value;
+        message.voltage = val.has_value() ? val.value() : NAN;
       } else if (name == "temperature") {
-        message.temperature = value;
+        message.temperature = val.has_value() ? val.value() : NAN;
       } else if (name == "charge") {
-        message.charge = value;
+        message.charge = val.has_value() ? val.value() : NAN;
       } else if (name == "current") {
-        message.current = value;
+        message.current = val.has_value() ? val.value() : NAN;
       } else if (name == "capacity") {
-        message.capacity = value;
+        message.capacity = val.has_value() ? val.value() : NAN;
       } else if (name == "percentage") {
-        message.percentage = value;
+        message.percentage = val.has_value() ? val.value() : NAN;
       } else if (name == "power_supply_health") {
-        message.power_supply_health = static_cast<uint8_t>(round(value));
+        message.power_supply_health = static_cast<uint8_t>(round(val.has_value() ? val.value() : 0.0));
       } else if (name == "power_supply_status") {
-        message.power_supply_status = static_cast<uint8_t>(round(value));
+        message.power_supply_status = static_cast<uint8_t>(round(val.has_value() ? val.value() : 0.0));
       } else if (name == "present") {
-        message.present = static_cast<int>(round(value)) == 0 ? false : true;
+        message.present = static_cast<int>(round(val.has_value() ? val.value() : 0.0)) == 0 ? false : true;
       }
     }
   }
