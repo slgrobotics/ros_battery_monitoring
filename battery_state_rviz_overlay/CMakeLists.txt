@@ -20,7 +20,15 @@ set(TARGET ${PROJECT_NAME}_parameters)
 generate_parameter_library(${TARGET} src/${TARGET}.yaml)
 
 add_executable(battery_state_rviz_overlay src/main.cpp src/BatteryStateDisplay.cpp)
-ament_target_dependencies(battery_state_rviz_overlay rclcpp sensor_msgs rviz_2d_overlay_msgs)
+#ament_target_dependencies(battery_state_rviz_overlay rclcpp sensor_msgs rviz_2d_overlay_msgs)
+
+target_link_libraries(battery_state_rviz_overlay PUBLIC
+  battery_state_rviz_overlay_parameters
+  ${rviz_2d_overlay_msgs_TARGETS}
+  ${sensor_msgs_TARGETS}
+  rclcpp::rclcpp
+  sensor_msgs::sensor_msgs_library
+)
 
 target_include_directories(battery_state_rviz_overlay PUBLIC
   include
@@ -28,7 +36,7 @@ target_include_directories(battery_state_rviz_overlay PUBLIC
   $<INSTALL_INTERFACE:include/battery_state_rviz_overlay>
 )
 
-target_link_libraries(${PROJECT_NAME} battery_state_rviz_overlay_parameters fmt::fmt)
+#target_link_libraries(${PROJECT_NAME} battery_state_rviz_overlay_parameters fmt::fmt)
 
 install(
   TARGETS

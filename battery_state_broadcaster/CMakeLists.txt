@@ -32,8 +32,18 @@ target_include_directories(battery_state_broadcaster PUBLIC
   $<INSTALL_INTERFACE:include/battery_state_broadcaster>
 )
 
-target_link_libraries(${PROJECT_NAME} PUBLIC battery_state_broadcaster_parameters)
-ament_target_dependencies(battery_state_broadcaster PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
+#target_link_libraries(${PROJECT_NAME} PUBLIC battery_state_broadcaster_parameters)
+#ament_target_dependencies(battery_state_broadcaster PUBLIC ${THIS_PACKAGE_INCLUDE_DEPENDS})
+
+target_link_libraries(battery_state_broadcaster PUBLIC
+  battery_state_broadcaster_parameters
+  ${sensor_msgs_TARGETS}
+  controller_interface::controller_interface
+  pluginlib::pluginlib
+  realtime_tools::realtime_tools
+  realtime_tools::thread_priority
+  sensor_msgs::sensor_msgs_library
+)
 
 pluginlib_export_plugin_description_file(controller_interface battery_state_broadcaster.xml)
 
