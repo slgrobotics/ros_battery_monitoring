@@ -1,7 +1,3 @@
-#
-# inspired by https://github.com/HarvestX/h6x_ros2_controllers/blob/humble/battery_state_broadcaster/src/battery_state_broadcaster_parameters.yaml
-#
-
 battery_state_broadcaster:
   sensor_name:
     type: string
@@ -16,6 +12,8 @@ battery_state_broadcaster:
     description: "The battery chemistry."
     default_value: 0
     validation:
+      gt_eq<>: 0 # POWER_SUPPLY_TECHNOLOGY_UNKNOWN
+      lt_eq<>: 8 # POWER_SUPPLY_TECHNOLOGY_VRLA
   design_capacity:
     type: double
     description: "Capacity in in Ah (design capacity) (If unmeasured NaN)"
@@ -36,18 +34,16 @@ battery_state_broadcaster:
     validation:
       not_empty<>: []
       size_lt<>: 10
-      subset_of<>: [
-          [
-            # Mandatory:
-            "voltage",
-            # Optional:
-            "temperature",
-            "current",
-            "charge",
-            "capacity",
-            "percentage",
-            "power_supply_status",
-            "power_supply_health",
-            "present",
-          ],
-        ]
+      subset_of<>: [[
+        # Mandatory:
+        "voltage",
+        # Optional:
+        "temperature",
+        "current",
+        "charge",
+        "capacity",
+        "percentage",
+        "power_supply_status",
+        "power_supply_health",
+        "present",
+      ]]
