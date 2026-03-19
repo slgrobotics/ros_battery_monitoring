@@ -45,3 +45,7 @@ battery_state_broadcaster_spawner = Node(
 ## Topics
 The battery state is published on `~/battery_state`.
 Since it's a plugin within the controller manager, add a remapping of the form `("~/battery_state", "/my_battery_state") to the *controller manager*, not the spawner, to change the topic name.
+
+-------
+
+See my [Main Project Wiki](https://github.com/slgrobotics/articubot_one/wiki) and [Useful Links](https://github.com/slgrobotics/robots_bringup/blob/main/Docs/ROS-Jazzy/README.md#useful-links) for more.
