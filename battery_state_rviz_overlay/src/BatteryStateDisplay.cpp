@@ -1,5 +1,7 @@
 #include "battery_state_rviz_overlay/BatteryStateDisplay.hpp"
 #include <cmath>
+#include <sstream>
+#include <stdexcept>
 #include <fmt/compile.h>
 #include <fmt/format.h>
 #include <rclcpp/qos.hpp>
@@ -50,7 +52,7 @@ void BatteryStateDisplay::batteryStateCallback(const sensor_msgs::msg::BatterySt
 
   if (isNormal(message.percentage))
   {
-    overlay.text += fmt::format(FMT_COMPILE("Percent SOC:     {:>8.2f}%\n"), message.percentage);
+    overlay.text += fmt::format(FMT_COMPILE("Percent SOC:     {:>8.2f}%\n"), message.percentage * 100.0);
     overlay.height += line_height;
   }
 
@@ -85,18 +87,23 @@ void BatteryStateDisplay::batteryStateCallback(const sensor_msgs::msg::BatterySt
       e.what());
   }
 
+  overlay.text += "</pre>";
   overlayPublisher_->publish(overlay);
 }
 
 std::vector<double> BatteryStateDisplay::getRgba()
 {
-  //const std::string s_rgba = params_.fg_color_rgba;
   std::stringstream ss(params_.fg_color_rgba);
   std::vector<double> double_array;
-  std::string value;
-
-  while (std::getline(ss, value, ' ')) {
-    double_array.push_back(std::stod(value));
+  double value;
+  while (ss >> value) {
+    if (!std::isfinite(value) || value < 0.0 || value > 1.0) {
+      throw std::invalid_argument("RGBA components must be finite and between 0 and 1");
+    }
+    double_array.push_back(value);
+  }
+  if (!ss.eof() || double_array.size() != 4) {
+    throw std::invalid_argument("RGBA must contain exactly four numeric components");
   }
   return double_array;
 }

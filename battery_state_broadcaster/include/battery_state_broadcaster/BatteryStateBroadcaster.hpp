@@ -33,6 +33,7 @@ private:
   std::unique_ptr<BatterySensor> battery_sensor_;
   std::shared_ptr<ParamListener> param_listener_;
   Params params_;
+  sensor_msgs::msg::BatteryState message_;
 
   using StatePublisher = realtime_tools::RealtimePublisher<sensor_msgs::msg::BatteryState>;
   rclcpp::Publisher<sensor_msgs::msg::BatteryState>::SharedPtr battery_state_pub_;

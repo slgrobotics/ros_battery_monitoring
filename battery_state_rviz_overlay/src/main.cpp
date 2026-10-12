@@ -16,6 +16,8 @@ int main(int argc, char* argv[])
     RCLCPP_ERROR(
       node->get_logger(), "Exception thrown during BatteryStateDisplay init stage with message: %s \n",
       e.what());
+    rclcpp::shutdown();
+    return 1;
   }
 
   rclcpp::spin(node);

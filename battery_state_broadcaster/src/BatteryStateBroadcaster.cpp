@@ -57,7 +57,7 @@ BatteryStateBroadcaster::on_configure(const rclcpp_lifecycle::State& /*previous_
   //   msg.design_capacity = static_cast<float>(params_.design_capacity);
   //   ...
   // });
-  sensor_msgs::msg::BatteryState msg;
+  auto & msg = message_;
 
   // A Jazzy and Kilted compatible way of filling message in the interim:
   // seed the message with static values from parameters and defaults for dynamic members:
@@ -76,11 +76,7 @@ BatteryStateBroadcaster::on_configure(const rclcpp_lifecycle::State& /*previous_
   msg.location = params_.location;
   msg.serial_number = params_.serial_number;
 
-  if(!realtime_publisher_->try_publish(msg)) {
-    RCLCPP_ERROR(
-      get_node()->get_logger(), "Failed to lock realtime publisher at configure stage \n");
-    return CallbackReturn::ERROR;
-  } 
+  // Publish only from update(), after the interfaces have been activated.
 
   RCLCPP_DEBUG(get_node()->get_logger(), "on_configure() successful");
 
@@ -120,7 +116,7 @@ BatteryStateBroadcaster::on_deactivate(const rclcpp_lifecycle::State& /*previous
 controller_interface::return_type BatteryStateBroadcaster::update(const rclcpp::Time& time,
                                                                   const rclcpp::Duration& /*period*/)
 {
-  sensor_msgs::msg::BatteryState msg;
+  auto & msg = message_;
 
   if (realtime_publisher_) {
     msg.header.stamp = time;
