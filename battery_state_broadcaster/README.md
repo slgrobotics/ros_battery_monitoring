@@ -1,3 +1,8 @@
+> **Important:**
+> - `battery_state_broadcaster` is retired in Lyrical. It was used in Jazzy/Kilted to broadcast *BatteryState* messages from older *ros2_control* state interfaces.
+> - Note the `COLCON_IGNORE` file that prevents this project from compiling.
+
+
 # battery_state_broadcaster
 This is a [ros2_control Broadcaster](https://control.ros.org/foxy/doc/ros2_controllers/doc/controllers_index.html#available-broadcasters) which publishes [sensor_msgs/BatteryState](https://github.com/ros2/common_interfaces/blob/rolling/sensor_msgs/msg/BatteryState.msg) messages from appropriage state interfaces.
 
