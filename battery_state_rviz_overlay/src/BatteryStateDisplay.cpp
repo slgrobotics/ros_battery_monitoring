@@ -56,6 +56,39 @@ void BatteryStateDisplay::batteryStateCallback(const sensor_msgs::msg::BatterySt
     overlay.height += line_height;
   }
 
+  using sensor_msgs::msg::BatteryState;
+  if (message.power_supply_status == BatteryState::POWER_SUPPLY_STATUS_CHARGING)
+  {
+    const auto now = std::chrono::steady_clock::now();
+    if (!charging_start_)
+    {
+      charging_start_ = now;
+    }
+    const auto seconds = std::chrono::duration_cast<std::chrono::seconds>(
+        now - *charging_start_).count();
+    overlay.text += fmt::format(FMT_COMPILE("Status: Charging ({:02}:{:02}:{:02})\n"),
+                                seconds / 3600, seconds / 60 % 60, seconds % 60);
+  }
+  else
+  {
+    charging_start_.reset();
+    const char* status = "Unknown";
+    switch (message.power_supply_status)
+    {
+      case BatteryState::POWER_SUPPLY_STATUS_DISCHARGING:
+        status = "Discharging";
+        break;
+      case BatteryState::POWER_SUPPLY_STATUS_NOT_CHARGING:
+        status = "Not charging";
+        break;
+      case BatteryState::POWER_SUPPLY_STATUS_FULL:
+        status = "Full";
+        break;
+    }
+    overlay.text += fmt::format(FMT_COMPILE("Status: {}\n"), status);
+  }
+  overlay.height += line_height;
+
   overlay.horizontal_distance = params_.horizontal_distance;
   overlay.vertical_distance = params_.vertical_distance;
   overlay.horizontal_alignment = params_.horizontal_alignment;

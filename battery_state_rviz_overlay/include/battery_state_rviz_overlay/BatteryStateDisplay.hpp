@@ -1,4 +1,6 @@
 #pragma once
+#include <chrono>
+#include <optional>
 #include <rclcpp/node.hpp>
 #include <rclcpp/subscription.hpp>
 #include <rviz_2d_overlay_msgs/msg/detail/overlay_text__struct.hpp>
@@ -21,6 +23,7 @@ public:
 private:
   std::shared_ptr<ParamListener> param_listener_;
   Params params_;
+  std::optional<std::chrono::steady_clock::time_point> charging_start_;
 
   rclcpp::Publisher<rviz_2d_overlay_msgs::msg::OverlayText>::SharedPtr overlayPublisher_;
 
